@@ -16,6 +16,8 @@ Don't override. Generated from: I3CCSR
 |------|----------|----|
 | 0x000|  I3CBase |  — |
 | 0x100|PIOControl|  — |
+| 0x400|    DAT   |  — |
+| 0x800|    DCT   |  — |
 
 ## I3CBase register file
 
@@ -1051,3 +1053,139 @@ When set to 0, it holds execution of enqueued commands and runs current command 
 <p>Stop current command descriptor execution forcefully and hold remaining commands.
 1 - Request PIO Abort,
 0 - Resume PIO execution</p>
+
+## DAT memory
+
+- Absolute Address: 0x400
+- Base Offset: 0x400
+- Size: 0x400
+
+|Offset|   Identifier  |Name|
+|------|---------------|----|
+|  0x0 |DAT_MEMORY[128]|  — |
+
+### DAT_MEMORY register
+
+- Absolute Address: 0x400
+- Base Offset: 0x0
+- Size: 0x400
+- Array Dimensions: [128]
+- Array Stride: 0x8
+- Total Size: 0x400
+
+| Bits| Identifier |Access|Reset|       Name       |
+|-----|------------|------|-----|------------------|
+| 6:0 | static_addr|  rw  |  —  |  STATIC_ADDRESS  |
+|  12 | ibi_payload|  rw  |  —  |    IBI_PAYLOAD   |
+|  13 | ibi_reject |  rw  |  —  |    IBI_REJECT    |
+|  14 | crr_reject |  rw  |  —  |    CRR_REJECT    |
+|  15 |     ts     |  rw  |  —  |        TS        |
+|23:16| dynamic_adr|  rw  |  —  |  DYNAMIC_ADDRESS |
+|28:26|   ring_id  |  rw  |  —  |      RING_ID     |
+|30:29|  retry_cnt |  rw  |  —  |DEV_NACK_RETRY_CNT|
+|  31 |     dev    |  rw  |  —  |      DEVICE      |
+|39:32|autocmd_mask|  rw  |  —  |   AUTOCMD_MASK   |
+|47:40| autocmd_val|  rw  |  —  |   AUTOCMD_VALUE  |
+|50:48|autocmd_mode|  rw  |  —  |   AUTOCMD_MODE   |
+|58:51| autocmd_hdr|  rw  |  —  | AUTOCMD_HDR_CODE |
+
+#### static_addr field
+
+<p>I3C/I2C static device address</p>
+
+#### ibi_payload field
+
+<p>Device's IBI contains data payload</p>
+
+#### ibi_reject field
+
+<p>Reject device's request for IBI</p>
+
+#### crr_reject field
+
+<p>Reject device's request for controller change</p>
+
+#### ts field
+
+<p>Enable/disable IBI timestamp</p>
+
+#### dynamic_adr field
+
+<p>I3C dynamic address</p>
+
+#### ring_id field
+
+<p>Send IBI read to ring bundle</p>
+
+#### retry_cnt field
+
+<p>Number of retries before giving up</p>
+
+#### dev field
+
+<p>Device type:
+0 - I3C device,
+1 - I2C device.</p>
+
+#### autocmd_mask field
+
+<p>IBI mask</p>
+
+#### autocmd_val field
+
+<p>IBI value that triggers auto command</p>
+
+#### autocmd_mode field
+
+<p>Auto command mode and speed</p>
+
+#### autocmd_hdr field
+
+<p>Device auto command in HDR mode</p>
+
+## DCT memory
+
+- Absolute Address: 0x800
+- Base Offset: 0x800
+- Size: 0x800
+
+|Offset|   Identifier  |Name|
+|------|---------------|----|
+|  0x0 |DCT_MEMORY[128]|  — |
+
+### DCT_MEMORY register
+
+- Absolute Address: 0x800
+- Base Offset: 0x0
+- Size: 0x800
+- Array Dimensions: [128]
+- Array Stride: 0x10
+- Total Size: 0x800
+
+| Bits | Identifier |Access|Reset|      Name     |
+|------|------------|------|-----|---------------|
+| 31:0 |   pid_hi   |   r  |  —  |     PID_HI    |
+| 47:32|   pid_lo   |   r  |  —  |     PID_LO    |
+| 71:64|     dcr    |   r  |  —  |      DCR      |
+| 79:72|     bcr    |   r  |  —  |      BCR      |
+|103:96|dynamic_addr|   r  |  —  |DYNAMIC_ADDRESS|
+
+#### pid_hi field
+
+<p>Device Provisional ID High</p>
+
+#### pid_lo field
+
+<p>Device Provisional ID Low</p>
+
+#### dcr field
+
+<p>Value of the I3C device's Device Characteristics Register</p>
+
+#### bcr field
+
+<p>Value of the I3C device's Bus Characteristics Register</p>
+
+#### dynamic_addr field
+
+<p>Device I3C Dynamic Address after ENTDAA</p>
